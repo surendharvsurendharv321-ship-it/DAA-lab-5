@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Min-Max Using Divide and Conquer</title>
+
+<style>
+    body{
+        margin:0;
+        padding:0;
+        font-family:Arial, Helvetica, sans-serif;
+        background:linear-gradient(135deg,#4facfe,#00f2fe);
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        height:100vh;
+    }
+
+    .container{
+        width:450px;
+        background:#ffffff;
+        padding:25px;
+        border-radius:15px;
+        box-shadow:0 10px 25px rgba(0,0,0,0.3);
+        text-align:center;
+    }
+
+    h1{
+        color:#0d47a1;
+    }
+
+    p{
+        color:#444;
+        font-size:16px;
+    }
+
+    input{
+        width:90%;
+        padding:12px;
+        border:2px solid #2196F3;
+        border-radius:8px;
+        font-size:16px;
+        outline:none;
+    }
+
+    input:focus{
+        border-color:#4CAF50;
+        box-shadow:0 0 8px #4CAF50;
+    }
+
+    button{
+        margin-top:20px;
+        padding:12px 25px;
+        background:#4CAF50;
+        color:white;
+        border:none;
+        border-radius:8px;
+        font-size:17px;
+        cursor:pointer;
+        transition:0.3s;
+    }
+
+    button:hover{
+        background:#2E7D32;
+        transform:scale(1.05);
+    }
+
+    .result{
+        margin-top:25px;
+        padding:15px;
+        background:#E3F2FD;
+        border-left:6px solid #2196F3;
+        border-radius:8px;
+        font-size:18px;
+        color:#0D47A1;
+        font-weight:bold;
+    }
+
+    .min{
+        color:#E53935;
+    }
+
+    .max{
+        color:#43A047;
+    }
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+<h1>Divide & Conquer</h1>
+<h2>Find Minimum and Maximum Value</h2>
+
+<p>Enter numbers separated by commas</p>
+
+<input type="text" id="numbers" placeholder="Example: 10,25,8,45,60,5">
+
+<br>
+
+<button onclick="findMinMax()">Find Min & Max</button>
+
+<div class="result" id="output">
+Result will appear here...
+</div>
+
+</div>
+
+<script>
+
+function minMax(arr, low, high){
+
+    if(low == high){
+        return {min: arr[low], max: arr[low]};
+    }
+
+    if(high == low + 1){
+        if(arr[low] < arr[high]){
+            return {min: arr[low], max: arr[high]};
+        }else{
+            return {min: arr[high], max: arr[low]};
+        }
+    }
+
+    let mid = Math.floor((low + high)/2);
+
+    let left = minMax(arr, low, mid);
+    let right = minMax(arr, mid+1, high);
+
+    return{
+        min: Math.min(left.min, right.min),
+        max: Math.max(left.max, right.max)
+    };
+}
+
+function findMinMax(){
+
+    let input = document.getElementById("numbers").value;
+
+    if(input.trim()==""){
+        alert("Please enter numbers!");
+        return;
+    }
+
+    let arr = input.split(",").map(Number);
+
+    let ans = minMax(arr,0,arr.length-1);
+
+    document.getElementById("output").innerHTML =
+    "<span class='min'>Minimum Value : " + ans.min + "</span><br><br>" +
+    "<span class='max'>Maximum Value : " + ans.max + "</span>";
+
+}
+
+</script>
+
+</body>
+</html>
